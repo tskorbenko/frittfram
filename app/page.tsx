@@ -20,6 +20,7 @@ const projects = [
   ["/portfolio-rekonstruktionsverket.webp", "Rekonstruktionsverket", "Корпоративний сайт", "https://www.rekonstruktionsverket.se/"],
   ["/portfolio-positiva.webp", "Positiva Vagnar", "Інформаційний сайт", "https://positiva.digitalkungen.se/"],
   ["/portfolio-fuktpatrullen.webp", "Fuktpatrullen", "Сайт сервісної компанії", "https://www.fuktpatrullen.se/"],
+  ["/portfolio-novyny.webp", "Novyny.se", "Новинний портал", "https://novyny.se/"],
 ];
 
 const steps = [
