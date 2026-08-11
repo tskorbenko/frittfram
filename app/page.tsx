@@ -12,6 +12,7 @@ const services = [
 ];
 
 const projects = [
+  ["/portfolio-novyny.webp", "Novyny.se", "Новинний портал", "https://novyny.se/"],
   ["/portfolio-bormantech.webp", "BorManTech", "Сайт сервісної компанії", "https://bormantech.se/"],
   ["/portfolio-aloniss.webp", "Aloniss", "Сайт клінінгової компанії", "https://aloniss.com/"],
   ["/portfolio-layout24.webp", "Layout24", "Інтернет-магазин", "https://layout24.se/"],
@@ -20,7 +21,6 @@ const projects = [
   ["/portfolio-rekonstruktionsverket.webp", "Rekonstruktionsverket", "Корпоративний сайт", "https://www.rekonstruktionsverket.se/"],
   ["/portfolio-positiva.webp", "Positiva Vagnar", "Інформаційний сайт", "https://positiva.digitalkungen.se/"],
   ["/portfolio-fuktpatrullen.webp", "Fuktpatrullen", "Сайт сервісної компанії", "https://www.fuktpatrullen.se/"],
-  ["/portfolio-novyny.webp", "Novyny.se", "Новинний портал", "https://novyny.se/"],
 ];
 
 const steps = [
