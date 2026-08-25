@@ -1,0 +1,17 @@
+{
+  "company_name": "Elektroarbeten i Saltsjöbaden AB",
+  "phone": "08-717 17 55",
+  "email": "info@elektroarbeten.se",
+  "location": "Saltsjöbaden, Nacka",
+  "founded": 1953,
+  "business_status": "OPERATIONAL",
+  "website_status": "NO_WEBSITE_FOUND",
+  "content_status": "Demo content; services and exact contact details must be confirmed before official publication",
+  "suggested_services": [
+    "Elinstallationer",
+    "Felsökning och elservice",
+    "Elcentral och jordfelsbrytare",
+    "Belysning",
+    "Laddbox"
+  ]
+}
