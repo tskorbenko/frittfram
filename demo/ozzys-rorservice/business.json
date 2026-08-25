@@ -1,0 +1,17 @@
+{
+  "name": "Ozzys Rörservice AB",
+  "displayName": "Ozzys Rörservice",
+  "organizationNumber": "556822-5030",
+  "phone": "+46700459369",
+  "phoneDisplay": "070-045 93 69",
+  "email": "ozzys-rorservice@hotmail.com",
+  "address": "Oxelvägen 55, 8 tr, 138 32 Älta",
+  "serviceArea": ["Älta", "Nacka", "Stockholms län"],
+  "businessSince": 2010,
+  "safeWaterAuthorizedSince": 2017,
+  "sources": [
+    "Säker Vatten company register",
+    "Swedish public company registers"
+  ],
+  "demo": true
+}

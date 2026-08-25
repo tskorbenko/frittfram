@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /
+
+# Inofficiell demo. Indexering aktiveras först efter företagets godkännande.
