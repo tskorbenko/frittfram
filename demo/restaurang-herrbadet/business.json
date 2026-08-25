@@ -1,0 +1,10 @@
+{
+  "name": "Restaurang Herrbadet",
+  "address": "Torben Gruts väg 8, 133 35 Saltsjöbaden",
+  "email": "restaurangen@saltisbadet.se",
+  "instagram": "https://www.instagram.com/restaurang_herrbadet/",
+  "maps": "https://maps.google.com/?cid=11607504581389972621",
+  "services": ["Frukost", "Lunch", "Fika", "AW", "Middag", "Cocktails med Hernö Gin", "Fest och evenemang"],
+  "data_note": "Säsongsöppet. Aktuella tider och menyer publiceras på Instagram.",
+  "demo": true
+}
