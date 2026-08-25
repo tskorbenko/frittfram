@@ -12,6 +12,95 @@ function respond(int $status, bool $success, string $message): never
     exit;
 }
 
+function smtpRead($socket): string
+{
+    $response = '';
+    while (($line = fgets($socket, 515)) !== false) {
+        $response .= $line;
+        if (strlen($line) >= 4 && $line[3] === ' ') {
+            break;
+        }
+    }
+    return $response;
+}
+
+function smtpCommand($socket, string $command, array $expectedCodes): string
+{
+    if ($command !== '') {
+        if (fwrite($socket, $command . "\r\n") === false) {
+            throw new RuntimeException('SMTP write failed.');
+        }
+    }
+
+    $response = smtpRead($socket);
+    $code = (int) substr($response, 0, 3);
+    if (!in_array($code, $expectedCodes, true)) {
+        throw new RuntimeException('SMTP command failed with code ' . $code . '.');
+    }
+    return $response;
+}
+
+function sendViaSmtp(
+    string $username,
+    string $password,
+    array $recipients,
+    string $replyTo,
+    string $subject,
+    string $body
+): void {
+    $context = stream_context_create([
+        'ssl' => [
+            'verify_peer' => true,
+            'verify_peer_name' => true,
+            'allow_self_signed' => false,
+        ],
+    ]);
+
+    $socket = @stream_socket_client(
+        'ssl://smtp.hostinger.com:465',
+        $errorNumber,
+        $errorMessage,
+        15,
+        STREAM_CLIENT_CONNECT,
+        $context
+    );
+    if ($socket === false) {
+        throw new RuntimeException('SMTP connection failed.');
+    }
+
+    stream_set_timeout($socket, 15);
+    try {
+        smtpCommand($socket, '', [220]);
+        smtpCommand($socket, 'EHLO fritt-fram.se', [250]);
+        smtpCommand($socket, 'AUTH LOGIN', [334]);
+        smtpCommand($socket, base64_encode($username), [334]);
+        smtpCommand($socket, base64_encode($password), [235]);
+        smtpCommand($socket, 'MAIL FROM:<' . $username . '>', [250]);
+        foreach ($recipients as $recipient) {
+            smtpCommand($socket, 'RCPT TO:<' . $recipient . '>', [250, 251]);
+        }
+        smtpCommand($socket, 'DATA', [354]);
+
+        $headers = implode("\r\n", [
+            'From: FrittFram Webbyrå <' . $username . '>',
+            'To: tskorbenko@gmail.com',
+            'Reply-To: ' . $replyTo,
+            'Subject: ' . $subject,
+            'Date: ' . date(DATE_RFC2822),
+            'Message-ID: <' . bin2hex(random_bytes(16)) . '@fritt-fram.se>',
+            'MIME-Version: 1.0',
+            'Content-Type: text/plain; charset=UTF-8',
+            'Content-Transfer-Encoding: 8bit',
+        ]);
+        $message = $headers . "\r\n\r\n" . str_replace("\n", "\r\n", str_replace("\r", '', $body));
+        $message = preg_replace('/^\./m', '..', $message) ?? $message;
+        smtpCommand($socket, $message . "\r\n.", [250]);
+        smtpCommand($socket, 'QUIT', [221]);
+    } finally {
+        fclose($socket);
+    }
+}
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     respond(405, false, 'Method not allowed.');
 }
@@ -65,7 +154,20 @@ $email = str_replace(["\r", "\n"], '', $email);
 $phone = str_replace(["\r", "\n"], ' ', $phone);
 $service = str_replace(["\r", "\n"], ' ', $service);
 
-$recipient = 'kontakt@fritt-fram.se';
+$recipient = 'tskorbenko@gmail.com';
+$archiveRecipient = 'kontakt@fritt-fram.se';
+$smtpUsername = 'kontakt@fritt-fram.se';
+$smtpPassword = (string) (getenv('FRITTFRAM_SMTP_PASSWORD') ?: '');
+$privateConfigPath = dirname(__DIR__) . '/frittfram-smtp.php';
+if ($smtpPassword === '' && is_file($privateConfigPath)) {
+    $privateConfig = require $privateConfigPath;
+    if (is_array($privateConfig)) {
+        $smtpPassword = (string) ($privateConfig['password'] ?? '');
+    }
+}
+if ($smtpPassword === '') {
+    respond(503, false, 'Email service is not configured.');
+}
 $subjectText = 'Ny offertförfrågan från ' . $name;
 $subject = '=?UTF-8?B?' . base64_encode($subjectText) . '?=';
 $body = implode("\n", [
@@ -80,15 +182,10 @@ $body = implode("\n", [
     'Projektbeskrivning:',
     $message,
 ]);
-$headers = implode("\r\n", [
-    'From: FrittFram Webbyrå <kontakt@fritt-fram.se>',
-    'Reply-To: ' . $email,
-    'MIME-Version: 1.0',
-    'Content-Type: text/plain; charset=UTF-8',
-    'X-Mailer: FrittFram Website',
-]);
-
-if (!mail($recipient, $subject, $body, $headers)) {
+try {
+    sendViaSmtp($smtpUsername, $smtpPassword, [$recipient, $archiveRecipient], $email, $subject, $body);
+} catch (Throwable $error) {
+    error_log('Offer form SMTP delivery failed: ' . $error->getMessage());
     respond(500, false, 'The message could not be sent.');
 }
 
