@@ -65,7 +65,7 @@ $email = str_replace(["\r", "\n"], '', $email);
 $phone = str_replace(["\r", "\n"], ' ', $phone);
 $service = str_replace(["\r", "\n"], ' ', $service);
 
-$recipient = 'tskorbenko@gmail.com';
+$recipient = 'kontakt@fritt-fram.se';
 $subjectText = 'Ny offertförfrågan från ' . $name;
 $subject = '=?UTF-8?B?' . base64_encode($subjectText) . '?=';
 $body = implode("\n", [
@@ -81,7 +81,7 @@ $body = implode("\n", [
     $message,
 ]);
 $headers = implode("\r\n", [
-    'From: FrittFram Webbyrå <noreply@fritt-fram.se>',
+    'From: FrittFram Webbyrå <kontakt@fritt-fram.se>',
     'Reply-To: ' . $email,
     'MIME-Version: 1.0',
     'Content-Type: text/plain; charset=UTF-8',
