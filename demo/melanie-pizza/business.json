@@ -1,0 +1,21 @@
+{
+  "company": "Melanie Pizzeria AB",
+  "brand": "Melanie Pizza",
+  "organization_number": "559586-2524",
+  "category": "Pizzeria och restaurang",
+  "city": "Nacka",
+  "district": "Henriksdal",
+  "phone": "08-23 09 09",
+  "email": "melaniepizzeria@gmail.com",
+  "address": "Henriksdalsringen 123, 131 32 Nacka",
+  "opening_hours": {"monday_friday": "11:00-21:00", "saturday_sunday": "12:00-21:00"},
+  "services": ["Pizza", "Kebab", "Kyckling", "Gyros", "Falafel", "Hamburgare", "Sallader", "Avhämtning"],
+  "menu_price_range_sek": "120-159",
+  "dietary_options": ["Glutenfri pizzabotten +20 kr", "Veganost +20 kr"],
+  "seo_keywords": ["pizzeria Henriksdal", "pizza Nacka", "pizza Henriksdalsringen", "kebab Henriksdal", "avhämtning pizza Nacka"],
+  "google_business_status": "OPERATIONAL",
+  "facebook": "https://www.facebook.com/people/Melanie-pizzeria/61593271852845/",
+  "google_maps": "https://maps.google.com/?cid=6583744689769827265",
+  "verified_sources": ["Google Places refresh", "Melanie Pizza Facebook page", "Uploaded official menu images", "Västra Sicklaön opening article", "Bolagsfakta company profile"],
+  "demo_disclaimer": "Unofficial noindex design proposal"
+}
